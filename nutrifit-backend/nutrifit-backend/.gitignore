@@ -1,0 +1,11 @@
+node_modules/
+.env
+logs/
+*.log
+dist/
+.DS_Store
+coverage/
+__pycache__/
+*.pyc
+venv/
+.env.local

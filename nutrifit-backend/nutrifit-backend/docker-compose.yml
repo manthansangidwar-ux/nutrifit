@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+
+  # ── MongoDB
+  mongo:
+    image: mongo:7
+    container_name: nutrifit-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: nutrifit
+    healthcheck:
+      test: ["CMD","mongosh","--eval","db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Node.js / Express Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: nutrifit-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file: .env
+    environment:
+      MONGO_URI: mongodb://mongo:27017/nutrifit
+      AI_MODULE_URL: http://ai-module:8000
+      NODE_ENV: development
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+
+  # ── Python AI Module
+  ai-module:
+    build:
+      context: ./ai-module
+      dockerfile: Dockerfile
+    container_name: nutrifit-ai
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      FLASK_ENV: development
+    volumes:
+      - ./ai-module:/app
+
+volumes:
+  mongo_data:
