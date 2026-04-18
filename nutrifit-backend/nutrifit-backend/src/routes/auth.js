@@ -1,6 +1,7 @@
 // ═══════════════════════════════════════════════
 //  src/routes/auth.js
 // ═══════════════════════════════════════════════
+console.log("AUTH FILE LOADED ✅");
 const express = require('express');
 const { body } = require('express-validator');
 const ctrl  = require('../controllers/authController');

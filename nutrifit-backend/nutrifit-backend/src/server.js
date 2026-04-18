@@ -14,7 +14,7 @@ const connectDB      = require('./config/database');
 const logger         = require('./utils/logger');
 const errorHandler   = require('./middleware/errorHandler');
 const { AppError }   = require('./utils/appError');
-
+console.log("ROUTES SECTION STARTED");
 // ── Route imports
 const authRoutes           = require('./routes/auth');
 const healthRoutes         = require('./routes/health');
