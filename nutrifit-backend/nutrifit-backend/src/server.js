@@ -1,4 +1,5 @@
-  require('dotenv').config();
+ console.log("NEW VERSION DEPLOYED 🚀");
+ require('dotenv').config();
 
 const express      = require('express');
 const helmet       = require('helmet');
